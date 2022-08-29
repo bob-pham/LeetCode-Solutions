@@ -29,10 +29,6 @@ class Solution:
                         tDown += 1
                     tPoint -= 1
             
-            print(sPoint)
-            print(tPoint)
-            print()
-            
             if (sPoint < 0 and tPoint < 0):
                 return True
             
