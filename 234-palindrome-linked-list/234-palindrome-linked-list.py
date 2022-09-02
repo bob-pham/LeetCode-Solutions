@@ -10,12 +10,12 @@ class Solution:
         length = 0
         
         while (curr):
-            nodes.append(curr)
+            nodes.append(curr.val)
             curr = curr.next
             length += 1
             
         for i in range((int) (length / 2)):
-            if (nodes.pop().val != nodes.popleft().val):
+            if (nodes.pop() != nodes.popleft()):
                 return False
         
         return True
