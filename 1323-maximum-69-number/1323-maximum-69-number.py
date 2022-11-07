@@ -1,5 +1,6 @@
 class Solution:
     def maximum69Number (self, num: int) -> int:
+
         num = list(str(num))
         
         for i in range(len(num)):
