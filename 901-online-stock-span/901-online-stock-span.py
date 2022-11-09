@@ -8,13 +8,9 @@ class StockSpanner:
         span = 0
         i = len(self.spans) - 1
         
-        if i >= 0:
-            curr = self.spans[i]
-        
-        while (i >= 0 and curr[0] <= price):
-            span += curr[1]
-            i = curr[2]
-            curr = self.spans[i]
+        while (i >= 0 and self.spans[i][0] <= price):
+            span += self.spans[i][1]
+            i = self.spans[i][2]
         
         span += 1
         
