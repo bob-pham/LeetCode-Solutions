@@ -16,7 +16,7 @@ class Solution:
                 else:
                     not_found.append(i)
             
-            if not_found == stones:
+            if len(not_found) == len(stones):
                 cycles += 1
                 x = {not_found[0][0]}
                 y = {not_found[0][1]}
