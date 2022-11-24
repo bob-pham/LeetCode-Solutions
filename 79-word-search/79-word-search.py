@@ -1,27 +1,23 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        
-        m, n = len(board), len(board[0])
-        
-        if len(word) > m * n: return False                            # [a] trivial case to discard
+        for x in range(len(board)):
+            for y in range(len(board[0])):
+                if self.DFS(board, word, 0, x, y):
+                    return True
+        return False
 
-        if not (cnt := Counter(word)) <= Counter(chain(*board)):      # [b] there are not enough
-            return False                                              #     letters on the board
-        
-        if cnt[word[0]] > cnt[word[-1]]:                              # [c] inverse word if it's better
-             word = word[::-1]                                        #     to start from the end
-        
-        def dfs(i, j, s, ch="#"):                                     # recursive postfix search
-            
-            if s == len(word) : return True                           # [1] found the word
-            
-            if 0 <= i < m and 0 <= j < n and board[i][j] == word[s]:  # [2] found a letter
-                board[i][j], ch = ch, board[i][j]                     # [3] mark as visited
-                adj = [(i,j+1),(i,j-1),(i+1,j),(i-1,j)]               # [4] iterate over adjacent cells...
-                dp = any(dfs(ii,jj,s+1) for ii,jj in adj)             # [5] ...and try next letter
-                board[i][j], ch = ch, board[i][j]                     # [6] remove mark
-                return dp                                             # [7] return search result
-
-            return False                                              # [8] this branch of DFS failed
-                
-        return any(dfs(i,j,0) for i,j in product(range(m),range(n)))  # search starting from each position```
+    def DFS(self, board: List[List[str]], word:str, index: int, x: int, y: int) -> bool:
+        if index == len(word):
+            return True
+        c = len(board[0])
+        r = len(board)
+        if x < 0 or y < 0 or x > r - 1 or y > c - 1 or word[index] != board[x][y] :
+            return False
+        board[x][y] = chr(0)
+        found = (
+            self.DFS(board, word, index + 1, x + 1, y) or
+            self.DFS(board, word, index + 1, x - 1, y) or
+            self.DFS(board, word, index + 1, x, y + 1) or
+            self.DFS(board, word, index + 1, x, y - 1))
+        board[x][y] = word[index]
+        return found
