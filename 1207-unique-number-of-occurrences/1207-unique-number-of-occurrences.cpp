@@ -2,7 +2,7 @@ class Solution {
 public:
     bool uniqueOccurrences(vector<int>& arr) {
         unordered_map<int, int> counts;
-        unordered_set<int> occurances;
+        set<int> occurances;
         
         for (int i : arr) {
             counts[i]++;
