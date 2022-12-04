@@ -1,24 +1,26 @@
-class Solution:
-    def minimumAverageDifference(self, nums: List[int]) -> int:
-        
-        total = sum(nums)
-        length = len(nums)
-        left = 0
-        result = sys.maxsize
-        result_index = 0
-        
-        for i in range(length):
-            curr = nums[i]
-            left += curr
-            total -= curr
+class Solution(object):
+    def minimumAverageDifference(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        end = 0
+        front = 0
+        mindif = 100000000000
+        location = 0
 
-            if i == length - 1:
-                curr = left/length
+        for x in nums:
+            end += x
+
+        for x in range(len(nums)):
+            front += nums[x]
+            end -= nums[x]
+            if x == len(nums) - 1:
+                currdif = front/len(nums)
             else:
-                curr = abs((left//(i+1)) - (total//(length-(i+1))))
-            
-            if curr < result:
-                result = curr
-                result_index = i
-
-        return result_index
+                currdif = abs((front/(x+1)) - (end/(len(nums)-(x+1))))
+            if currdif < mindif:
+                mindif = currdif
+                location = x 
+ 
+        return location
