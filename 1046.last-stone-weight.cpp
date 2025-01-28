@@ -14,7 +14,7 @@ public:
             if (a == b) {
                 continue;
             }
-            stones.push_back(a - b);
+            stones.push_back(a - b)
             std::push_heap(stones.begin(), stones.end());
         }
 
