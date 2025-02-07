@@ -7,63 +7,66 @@
  * };
  */
 
-struct ListNode* splitKGroup(struct ListNode* head, int k){
-	struct ListNode *curr = head;
-	int i = 0;
 
-	while (curr != NULL && i < k - 1) {
-		i++;
-		if (curr->next == NULL) {
-			return head;
-		}
+struct ListNode* reverse(struct ListNode* head) {
+	if (head == NULL || head->next == NULL) {
+		return head;
+	}
+	struct ListNode * prev = head;
+	struct ListNode * curr = head->next;
+	head->next = NULL;
+
+	while (curr != NULL) {
+		struct ListNode * temp = curr->next;
+		curr->next = prev;
+		prev = curr;
+		curr = temp;
+	}
+
+	return prev;
+}
+
+struct ListNode * splitKGroup(struct ListNode* head, int k) {
+	struct ListNode * curr = head;
+	int idx = 0; 
+
+	while (curr != NULL && idx < k - 1) {
 		curr = curr->next;
+		idx++;
+	}
+
+	if (curr == NULL || idx < k - 1) {
+		return NULL;
 	}
 
 	return curr;
 }
 
-struct ListNode* reverseSublist(struct ListNode* head) {
-	struct ListNode* prev = NULL;
-	struct ListNode* curr = head;
-
-	while (curr != NULL) {
-		struct ListNode * next= curr->next;
-		curr->next = prev;
-		prev = curr;
-		curr = next;
-	}
-
-	return prev == NULL ? head : prev;
-}
-
-
 struct ListNode* reverseKGroup(struct ListNode* head, int k) {
-	struct ListNode* curr = head;
-	struct ListNode* prev = NULL;
-	struct ListNode* next = NULL;
-
-	struct ListNode* tail = splitKGroup(curr, k);
-
-	if (tail == curr) {
-		return head;
-	}
-	next = tail->next;
-	tail->next = NULL;
-
-	head = reverseSublist(curr);
-	prev = curr;
-	curr = next;
+	struct ListNode * prev = NULL;
+	struct ListNode * curr = head;
 
 	while (curr != NULL) {
-		tail = splitKGroup(curr, k);
-		next = tail->next;
-		tail->next = NULL;
+		struct ListNode * tail = splitKGroup(curr, k);
 
-		prev->next = reverseSublist(curr);
+		if (tail == NULL) {
+			if (prev == NULL) {
+				return head;
+			}
+			prev->next = curr;
+			return head;
+		}
+
+		struct ListNode * next = tail->next;
+		tail->next = NULL;
+		if (prev == NULL) {
+			head = reverse(curr);
+		} else {
+			prev->next = reverse(curr);
+		}
 		prev = curr;
 		curr = next;
 	}
-
 	return head;
 }
 // @leet end
