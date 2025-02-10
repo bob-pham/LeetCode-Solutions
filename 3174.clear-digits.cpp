@@ -17,7 +17,6 @@ public:
             result = char_stack.top() + result;
             char_stack.pop();
         }
-
         return result;
     }
 };
