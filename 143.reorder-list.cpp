@@ -12,7 +12,7 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        vector<ListNode*> nodes;
+        deque<ListNode*> nodes;
 
         ListNode * curr = head;
         while (curr != nullptr) {
@@ -24,17 +24,26 @@ public:
             return;
         }
 
-        int s = nodes.size();
+        ListNode * prev = nullptr;
+        while (nodes.size() > 1) {
+            ListNode * front = nodes.front();
+            ListNode * back = nodes.back();
+            nodes.pop_front();
+            nodes.pop_back();
+            front->next = back;
 
-        for (int i = 1; i < (s % 2 == 0 ? s - 1 : s - 2); i++) {
-            ListNode * temp = nodes[i];
-            nodes[i] = nodes[s - 1];
-            nodes[s - 1] = temp;
+            if (prev != nullptr) {
+                prev->next = front;
+            }
+            prev = back;
+            back->next = nullptr;
         }
 
-        for (int i = 0; i < (s - 1); i++) {
-            nodes[i]->next = nodes[i + 1];
-            nodes[i + 1]->next = nullptr;
+        if (nodes.size() == 1) {
+            ListNode * front = nodes.front();
+            prev->next = front;
+            nodes.pop_back();
+            front->next = nullptr;
         }
     }
 };
