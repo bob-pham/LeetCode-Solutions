@@ -85,7 +85,7 @@ public:
                         }
                         board[y][x] = '.';
                     }
-                    return false;
+                return false;
                 }
             }
         }
