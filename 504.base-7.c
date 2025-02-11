@@ -1,38 +1,37 @@
 // @leet start
 char* convertToBase7(int num) {
-	bool negative = num < 0;
-	char * return_str;
-	int temp;
-	int idx = 0;
+	char * result;
+	bool neg = num < 0;
+	int size = 0;
+	int idx;
 
-
-	if (negative) {
-		temp = num * -1;
-		while (temp > 0) {
-			temp /= 7;
-			idx++;
-		}
-		return_str = malloc(sizeof(char) * (idx + 2));
-		temp = num * -1;
-		return_str[0] = '-';
-		idx = 1;
-	} else {
-		temp = num;
-		while (temp > 0) {
-			temp /= 7;
-			idx++;
-		}
-		return_str = malloc(sizeof(char) * (idx + 1));
-		temp = num;
-		idx = 0;
+	if (neg) {
+		num *= -1;
 	}
+	int temp = num;
 
-	while (temp > 0) {
-		return_str[idx++] = (temp % 7) + '0';
+	do {
 		temp /= 7;
+		size++;
+	} while (temp > 0);
+
+	if (neg) {
+		result = malloc((sizeof(char) * (size)) + 2);
+		result[0] = '-';
+		result[size+1] = '\0';
+		idx = size;
+	} else {
+		result = malloc((sizeof(char) * (size)) + 1);
+		result[size] = '\0';
+		idx = size - 1;
 	}
 
-	return_str[idx] = '\0';
-	return return_str;
+	temp = num;
+	do {
+		result[idx--] = '0' + (temp % 7);
+		temp /= 7;
+	} while (temp > 0);
+
+	return result;
 }
 // @leet end
