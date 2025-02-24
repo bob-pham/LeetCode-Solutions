@@ -1,55 +1,44 @@
 # @leet start
+
 from collections import deque
+
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        n = len(grid)
-        m = len(grid[0])
-        memo = [[sys.maxsize for _ in range(m)] for _ in range(n)]
+        minutes = 0
+        todo = deque()
+        next_todo = deque()
 
-        for y in range(n):
-            for x in range(m):
-                cell_type = grid[y][x]
-                if cell_type == 2:
-                    visited = [[False for _ in range(m)] for _ in range(n)]
-                    todo = deque()
+        m, n = len(grid), len(grid[0])
 
-                    if x - 1 >= 0:
-                        todo.append((x-1, y, 1))
-                    if x + 1 < m:
-                        todo.append((x+1, y, 1))
-                    if y - 1 >= 0:
-                        todo.append((x, y-1, 1))
-                    if y + 1 < n:
-                        todo.append((x, y+1, 1))
+        for y in range(m):
+            for x in range(n):
+                if grid[y][x] == 2:
+                    todo.append((y, x))
 
-                    while len(todo) > 0:
-                        xx, yy, dist = todo.popleft()
-                        if visited[yy][xx]:
-                            continue
-                        if grid[yy][xx] != 1:
-                            continue
+        while len(todo) > 0 or len(next_todo) > 0:
+            while len(todo) > 0:
+                y, x = todo.popleft()
+                if grid[y][x] == 2:
+                    continue
 
-                        visited[yy][xx] = True
-                        memo[yy][xx] = min(memo[yy][xx], dist)
+                grid[y][x] = 2
 
-                        if xx - 1 >= 0:
-                            todo.append((xx-1, yy, dist + 1))
-                        if xx + 1 < m:
-                            todo.append((xx+1, yy, dist + 1))
-                        if yy - 1 >= 0:
-                            todo.append((xx, yy-1, dist + 1))
-                        if yy + 1 < n:
-                            todo.append((xx, yy+1, dist + 1))
-        global_max = 0
-        for y in range(n):
-            for x in range(m):
-                if grid[y][x] == 1:
-                    if memo[y][x] == sys.maxsize:
-                        return -1
-                    else:
-                        global_max = max(global_max, memo[y][x])
+                if y + 1 < m and grid[y+1][x] == 1:
+                    next_todo.append((y+1, x))
 
-        return global_max
+                if y - 1 >= 0 and grid[y-1][x] == 1:
+                    next_todo.append((y-1, x))
 
+                if x + 1 < n and grid[y][x+1] == 1:
+                    next_todo.append((y, x+1))
+
+                if x - 1 >= 0 and grid[y][x-1] == 1:
+                    next_todo.append((y, x-1))
+
+            minutes += 1
+            todo = next_todo
+            next_todo = deque
+
+        return minutes
         
 # @leet end

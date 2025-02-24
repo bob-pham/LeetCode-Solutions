@@ -15,7 +15,7 @@ class Solution:
         idx = inorder.index(postorder[-1])
         l = len(inorder)
 
-        root.left = self.buildTree(inorder[idx+1:], postorder[idx-l:-1])
+        root.right = self.buildTree(inorder[idx+1:], postorder[idx-l:-1])
         root.left = self.buildTree(inorder[:idx], postorder[:idx])
 
         return root

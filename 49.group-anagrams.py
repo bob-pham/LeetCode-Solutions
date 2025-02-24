@@ -4,7 +4,7 @@ class Solution:
         map = {}
         
         for item in strs:
-            key = str(sorted(item))
+            key = string(sorted(item))
             if key in map:
                 map[key].append(item)
             else:

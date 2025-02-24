@@ -19,7 +19,6 @@ class Solution:
                 result.append([left, right])
                 left = v_left
                 right = v_right
-
         result.append([left, right])
 
         return result
