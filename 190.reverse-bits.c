@@ -10,7 +10,6 @@ uint32_t reverseBits(uint32_t n) {
 		result <<= 1;
 		n >>= 1;
 	}
-	result |= n & 1;
 
 	return result;
 }
