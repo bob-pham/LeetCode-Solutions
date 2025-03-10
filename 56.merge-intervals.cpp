@@ -1,32 +1,30 @@
 // @leet start
-
-#include <algorithm>
-bool compare(const vector<int> &a, const vector<int> &b) {
+bool comp(vector<int> a, vector<int> b) {
     if (a[0] == b[0]) {
         return a[1] < b[1];
-    } else {
-        return a[0] < b[0];
     }
+    return a[0] < b[0];
 }
 
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        sort(intervals.begin(), intervals.end(), comp);
         vector<vector<int>> result;
-        std::sort(intervals.begin(), intervals.end(), compare);
+        vector<int> curr = intervals[0];
 
-        vector<int> prev = intervals[0];
-        for (int i = 1; i < intervals.size(); i++) {
-            if (prev[1] >= intervals[i][0]) {
-                prev[1] = max(intervals[i][1], prev[1]);
-                continue;
+        for (int i = 0; i < intervals.size(); i++) {
+            vector<int> inter = intervals[i];
+            if (curr[0] <= inter[0] && curr[1] >= inter[0]) {
+                curr[1] = max(curr[1], inter[1]);
+            } else {
+                result.push_back(curr);
+                curr = inter;
             }
-            result.push_back(prev);
-            prev = intervals[i];
         }
 
-        result.push_back(prev);
-        
+        result.push_back(curr);
+
         return result;
     }
 };
