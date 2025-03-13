@@ -12,28 +12,26 @@
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* curr = head;
-        int size = 0;
+        int len = 0;
+        ListNode * curr = head;
+        ListNode * prev = nullptr;
 
         while (curr != nullptr) {
             curr = curr->next;
-            size++;
+            len++;
         }
 
         curr = head;
-        ListNode * prev = nullptr;
-        for (int i = 0; i < (size - n); i++) {
+        for (int i = 0; i < len - n; i++) {
             prev = curr;
             curr = curr->next;
         }
 
-        if (curr == head) {
+        if (prev == nullptr) {
             return curr->next;
         }
-
         prev->next = curr->next;
         return head;
-        
     }
 };
 // @leet end
